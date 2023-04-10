@@ -15,20 +15,46 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame //观察viewmodel which is a observable object and will publish some changes
     
     var body: some View {
+        VStack{
+            gamebody
+            shuffle
+        }
+        .padding(.horizontal)
+        .foregroundColor(.orange)
+    }
+    
+//    @State private var dealt = Set<Int>()
+    
+    
+    var gamebody: some View{
         AspectVGrid(items: game.cards,aspectRatio: 2/3){ card in
             if card.isMatched && !card.isFacedUp{
-                Rectangle().opacity(0)
+//                Rectangle().opacity(0)
+                Color.clear
             }else {
                 MyCardView(card)
                     .padding(4)
                     .aspectRatio(2/3,contentMode: .fit)
+                    .transition(AnyTransition.scale)
                     .onTapGesture {
-                        game.choose(card)
+                        withAnimation{
+                            game.choose(card)
+                        }
                     }
             }
         }
-        .padding(.horizontal)
-        .foregroundColor(.orange)
+//        .onAppear{
+//            //deal cards
+//        }
+    }
+    
+    var shuffle: some View {
+        Button("Shuffle"){
+            withAnimation{
+                game.shuffle()
+            }
+            
+        }
     }
 }
     
@@ -43,29 +69,28 @@ struct MyCardView: View{
     var body: some View{
         GeometryReader {geometry in
             ZStack{
-                let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-                if card.isFacedUp{
-                    shape.fill().foregroundColor(.white)
-                    shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
-                    Text(card.content).font(font(in: geometry.size))
-                }else if card.isMatched{
-                    shape.opacity(0)
+                    //Pie todo...
+                Text(card.isMatched ?  "🥳": card.content)
+//                Text(card.content)
+//                    .rotationEffect(Angle(degrees: card.isMatched ? 360 : 0))
+                    .animation(Animation.easeInOut(duration: 2))
+                    .font(Font.system(size: DrawingConstants.fontSize))
+                    .scaleEffect(scale(thatFits: geometry.size))
+                    
+//                    .rotationEffect(<#T##angle: Angle##Angle#>)
                 }
-                else{
-                    shape.fill()
-                }
-            }
+            .modifier(Cardify(isFacedUp: card.isFacedUp))
         }
     }
-    
-    private func font(in size: CGSize) -> Font {
-        Font.system(size: min(size.width, size.height)*DrawingConstants.fontScale)
+    private func scale(thatFits size: CGSize ) -> CGFloat {
+        min(size.width, size.height) / (DrawingConstants.fontSize / DrawingConstants.fontScale)
     }
     
+    
+    
     private struct  DrawingConstants{
-        static let cornerRadius: CGFloat = 20
-        static let lineWidth: CGFloat = 3
         static let fontScale:CGFloat = 0.8
+        static let fontSize: CGFloat = 32
     }
 }
 //var add : some View{
@@ -107,7 +132,7 @@ struct MyCardView: View{
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        game.choose(game.cards.first!)
+//        game.choose(game.cards.first!)
         return EmojiMemoryGameView(game: game)
     }
 }
