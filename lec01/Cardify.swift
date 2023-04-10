@@ -29,7 +29,12 @@ struct Cardify: AnimatableModifier{
                 shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
             }
             else{
-                shape.fill()
+                shape.fill(Color.black.opacity(0)).background(
+                    Image("whu")
+                        .resizable()
+                        .scaledToFit()
+                )
+                    
             }
             content
                 .opacity((rotation < 90) ? 1 : 0)

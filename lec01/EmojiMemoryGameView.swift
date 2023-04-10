@@ -28,7 +28,7 @@ struct EmojiMemoryGameView: View {
             
         }
         .padding(.horizontal)
-        .foregroundColor(.orange)
+        .foregroundColor(.cyan)
     }
     
     @State private var dealt = Set<Int>()

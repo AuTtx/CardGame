@@ -18,6 +18,8 @@ class EmojiMemoryGame: ObservableObject{
     typealias Card = MemoryGame<String>.Card
     
     static let emojis = ["🚗","🚕","🚎","🚒","🛻","🏎️","🚊","🏍️","🚄","✈️","🚁","🛥️"]
+    
+//    static let phrases = ["一心一意","二龙戏珠","三心二意","",""]
 
     //create a model which is modified by static , sharing by all the views
     static func createMemoryGame() -> MemoryGame<String>{
