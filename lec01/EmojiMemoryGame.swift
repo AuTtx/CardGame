@@ -19,12 +19,12 @@ class EmojiMemoryGame: ObservableObject{
     
     static let emojis = ["🚗","🚕","🚎","🚒","🛻","🏎️","🚊","🏍️","🚄","✈️","🚁","🛥️"]
     
-//    static let phrases = ["一心一意","二龙戏珠","三心二意","",""]
+    static let phrases = ["武","大","牛","比","华","科","不","行","南","大","最","吊","四","喜","丸","子"]
 
     //create a model which is modified by static , sharing by all the views
     static func createMemoryGame() -> MemoryGame<String>{
-        MemoryGame<String>(numberOfPairsOfCards: 5){ pairIndex in
-            emojis[pairIndex]
+        MemoryGame<String>(numberOfPhraseCards: 16){ phraseIndex in
+            phrases[phraseIndex]
         }
     }
     

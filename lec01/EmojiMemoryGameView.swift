@@ -34,11 +34,11 @@ struct EmojiMemoryGameView: View {
     @State private var dealt = Set<Int>()
     
     private func deal(_ card: EmojiMemoryGame.Card){
-        dealt.insert(card.id)
+        dealt.insert(card.id!)
     }
     
     private func isUndealt(_ card: EmojiMemoryGame.Card) -> Bool{
-         !dealt.contains(card.id)
+         !dealt.contains(card.id!)
     }
     
     private func dealAnimation(for card: EmojiMemoryGame.Card) -> Animation{
